@@ -1,0 +1,20 @@
+{
+    "name": "jordyrosenbrand/tomtom-api-client",
+    "description": "TomTom HTTP Api Client",
+    "type": "library",
+    "require": {
+        "php": ">=7.3",
+        "jordyrosenbrand/http-api-client": "^1.0.x-dev"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:jordyrosenbrand/http-api-client.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jordy\\Tomtom\\": "src/"
+        }
+    }
+}
