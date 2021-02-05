@@ -1,11 +1,10 @@
 <?php
 
-
 namespace Jordy\Tomtom\Api;
-
 
 use Jordy\Http\Api\AbstractEndpoint;
 use Jordy\Http\ClientInterface;
+use Jordy\Http\Parser\JsonParser;
 use Jordy\Http\ResponseInterface;
 use Jordy\Http\ResponseListInterface;
 
@@ -15,6 +14,10 @@ abstract class TomtomEndpoint extends AbstractEndpoint
     const EXT_XML = "xml";
 
     private $extension = self::EXT_JSON;
+
+    private $allowedExtensions = [
+        self::EXT_JSON => JsonParser::class,
+    ];
 
     /**
      * TomtomEndpoint constructor.
@@ -55,6 +58,25 @@ abstract class TomtomEndpoint extends AbstractEndpoint
     public function getExtension()
     {
         return $this->extension;
+    }
+
+    /**
+     * @param $extension
+     *
+     * @return AbstractEndpoint|TomtomEndpoint
+     */
+    public function setExtension($extension)
+    {
+        $static = $this;
+
+        if(isset($this->allowedExtensions[$extension])) {
+            $this->extension = $extension;
+            $static = $this->withParser(
+                new $this->allowedExtensions[$extension]()
+            );
+        }
+
+        return $static;
     }
 
     /**
