@@ -2,10 +2,47 @@
 
 namespace Jordy\Tomtom\Api;
 
+use Jordy\Http\Client;
+use Jordy\Http\ClientInterface;
+use Jordy\Http\ResponseInterface;
+use Jordy\Http\ResponseListInterface;
+use Jordy\Tomtom\Response\GeocodeResponse;
+
+/**
+ * https://developer.tomtom.com/search-api/search-api-documentation-geocoding/geocode
+ */
 class Geocode extends TomtomEndpoint
 {
     private $query;
     protected $uri = "https://api.tomtom.com/search/{VERSION}/geocode/{QUERY}.{EXTENSION}";
+
+    /**
+     * @param ClientInterface            $client
+     * @param ResponseInterface|null     $response
+     * @param ResponseListInterface|null $responseList
+     */
+    public function __construct(
+        ClientInterface $client,
+        ResponseInterface $response = null,
+        ResponseListInterface $responseList = null
+    ) {
+        parent::__construct(
+            $client,
+            $response ?? new GeocodeResponse(),
+            $responseList
+        );
+    }
+
+    /**
+     * @return ResponseListInterface
+     */
+    public function fetch()
+    {
+        return $this->transfer(Client::HTTP_GET)
+            ->setResultMapping([
+                "results"
+            ]);
+    }
 
     /**
      * @return string

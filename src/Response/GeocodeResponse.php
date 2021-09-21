@@ -1,6 +1,6 @@
 <?php
 
-namespace Jordy\Tomtom\Api;
+namespace Jordy\Tomtom\Response;
 
 use Jordy\Http\Response;
 
