@@ -5,7 +5,7 @@ namespace Jordy\Tomtom;
 use Jordy\Http\Client;
 use Jordy\Tomtom\Api\Geocode;
 use Jordy\Tomtom\Api\GeocodeEndpoint;
-use Jordy\Tomtom\Api\GeocodeResponse;
+use Jordy\Tomtom\Api\StructuredGeocode;
 
 class Tomtom extends Client
 {
@@ -13,6 +13,7 @@ class Tomtom extends Client
     private $version;
 
     private $geocode;
+    private $structuredGeocode;
 
     /**
      * Tomtom constructor.
@@ -29,7 +30,7 @@ class Tomtom extends Client
     }
 
     /**
-     * @return string|string
+     * @return string
      */
     public function getApiKey()
     {
@@ -49,10 +50,22 @@ class Tomtom extends Client
      */
     public function geocode()
     {
-        if(! $this->geocode) {
-            $this->geocode = new Geocode($this, new GeocodeResponse());
+        if (! $this->geocode) {
+            $this->geocode = new Geocode($this);
         }
 
         return $this->geocode;
+    }
+
+    /**
+     * @return StructuredGeocode
+     */
+    public function structuredGeocode()
+    {
+        if (! $this->structuredGeocode) {
+            $this->structuredGeocode = new StructuredGeocode($this);
+        }
+
+        return $this->structuredGeocode;
     }
 }
